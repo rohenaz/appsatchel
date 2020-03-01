@@ -1,7 +1,13 @@
- AOS.init({
- 	duration: 800,
- 	easing: 'slide'
- });
+AOS.init({
+duration: 800,
+easing: 'slide'
+})
+
+function  fireAction(action) {
+  console.log('posting message', action)
+  let actionObjStr = JSON.stringify(action)
+  window.postMessage({ type: "FROM_PAGE", action: actionObjStr }, "*")
+}
 
 (function($) {
 
@@ -18,23 +24,98 @@
 	  verticalOffset: 0
   })
 
-  $("#theButton").click(function() {
-    console.log('posting message')
+  
+  $("#login").click(function() {
+    let action = {
+      uuid: "<random uuid>", //A random UUID used to map a function call to a promise on the frontend
+      action: "BSVABI_LOGIN", //The function the user is calling in the wallet
+      account: "<Metalink ID TXID>",
+      args: [
+          "<ABI TXID>", 
+          "login", 
+          ["arg1", "arg2", "arg3"]
+      ]
+    }
 
+    fireAction(action)
+  })
+
+  $("#sign").click(function() {
+    let action = {
+      uuid: "<random uuid>", //A random UUID used to map a function call to a promise on the frontend
+      action: "BSVABI_SIGN", //The function the user is calling in the wallet
+      account: "<Metalink ID TXID>",
+      args: [
+          "<ABI TXID>", 
+          "sign", 
+          ["arg1", "arg2", "arg3"]
+      ]
+    }
+
+    fireAction(action)
+  })
+
+  $("#signAndSend").click(function() {
     let action = {
       uuid: "<random uuid>", //A random UUID used to map a function call to a promise on the frontend
       action: "BSVABI_SIGNANDSEND", //The function the user is calling in the wallet
       account: "<Metalink ID TXID>",
       args: [
           "<ABI TXID>", 
-          "<action>", 
+          "signAndSend",
           ["arg1", "arg2", "arg3"]
       ]
     }
 
-    let actionObjStr = JSON.stringify(action)
-    window.postMessage({ type: "FROM_PAGE", action: actionObjStr }, "*")
+    fireAction(action)
   })
+
+  $("#encrypt").click(function() {
+    let action = {
+      uuid: "<random uuid>", //A random UUID used to map a function call to a promise on the frontend
+      action: "BSVABI_ENCRYPT", //The function the user is calling in the wallet
+      account: "<Metalink ID TXID>",
+      args: [
+          "<ABI TXID>", 
+          "encrypt",
+          ["arg1", "arg2", "arg3"]
+      ]
+    }
+
+    fireAction(action)
+  })
+
+
+  $("#decrypt").click(function() {
+    let action = {
+      uuid: "<random uuid>", //A random UUID used to map a function call to a promise on the frontend
+      action: "BSVABI_DECRYPT", //The function the user is calling in the wallet
+      account: "<Metalink ID TXID>",
+      args: [
+          "<ABI TXID>", 
+          "decrypt",
+          ["arg1", "arg2", "arg3"]
+      ]
+    }
+
+    fireAction(action)
+  })
+
+  $("#balance").click(function() {
+    let action = {
+      uuid: "<random uuid>", //A random UUID used to map a function call to a promise on the frontend
+      action: "BSVABI_BALANCE", //The function the user is calling in the wallet
+      account: "<Metalink ID TXID>",
+      args: [
+          "<ABI TXID>", 
+          "balance",
+          ["arg1", "arg2", "arg3"]
+      ]
+    }
+
+    fireAction(action)
+  })
+
 
 	var fullHeight = function() {
 		$('.js-fullheight').css('height', $(window).height());
